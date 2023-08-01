@@ -43,9 +43,9 @@
 ### Association
 - belongs_to :item
 - belongs_to :user
-- has_one :sending-addresses
+- has_one :sending_addresses
 
-## sending-addressesテーブル
+## sending_addressesテーブル
 | Column | Type | Option |
 |-|-|-|
 | post_code | string | null: false |
