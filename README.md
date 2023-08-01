@@ -14,7 +14,7 @@
 
 ### Association
 - has_many :items
-- has_many :comments
+- has_many :orders
 
 ## itemsテーブル
 | Column | Type | Option |
@@ -32,31 +32,20 @@
 
 ### Association
 - belongs_to :user
-- has_many :comments
 - has_one :order
 
-## commentテーブル
-| Column | Type | Option |
-|-|-|-|
-| user_id | references | null: false, foreign_key: true |
-| item_id | references | null: false, foreign_key: true |
-| comment | text| 
-
-### Association
-- belongs_to :user
-- belongs_to :items
-
-## orderテーブル
+## ordersテーブル
 | Column | Type | Option |
 |-|-|-|
 | user | references | null: false, foreign_key: true |
-| item_id | references | null: false, foreign_key: true |
+| item | references | null: false, foreign_key: true |
 
 ### Association
-- belongs_to :items
-- has_one :sending-address
+- belongs_to :item
+- belongs_to :user
+- has_one :sending-addresses
 
-## sending-addressテーブル
+## sending-addressesテーブル
 | Column | Type | Option |
 |-|-|-|
 | post_code | string | null: false |
@@ -65,19 +54,8 @@
 | street | string | null: false |
 | building_name | string | 
 | phone_num | string | null: false |
-| order_id | references | null: false, foreign_key: true |
-| last_name | string | null: false |
-| first_name | string | null: false |
-| last_name_kana | string | null: false |
-| first_name_kana | string | null: false |
+| order | references | null: false, foreign_key: true |
 
 ### Association
 - belongs_to :order
-- has_one :credit-card
 
-## credit-cardテーブル
-| Column | Type | Option |
-|-|-|-|
-| user | integer | null: false |
-| sending-address_id | string | null: false |
-| card_id | string | null: false |
