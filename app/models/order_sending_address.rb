@@ -1,10 +1,10 @@
 class OrderSendingAddress < ApplicationRecord
   include ActiveModel::Model
   attr_accessor :postal_code, :prefecture, :city, :house_number, :building_name, :price, :user_id
-  :item_id, :user_id, :post_code, :prefectuer_id, :city, :street, :building_name, :phone_num, :order, :token, 
+  :item_id, :user_id, :post_code, :prefectuer_id, :city, :street, :building_name, :phone_num, :order, :, 
   
   with_options presence: true do
-    validates :user_id, :city, :strret, :token, :item_id
+    validates :user_id, :city, :strret, :, :item_id
     validates :postal_code, format: {with: /\A[0-9]{3}-[0-9]{4}\z/, message: "is invalid. Include hyphen(-)"}
     validates :prefecture_id, numericality: { other_than: 1 , message: "を選択してください"}
     validates :phone_number, length: {minimum: 10, message: "は10桁以上を入力してください"}, format: {with: /\A[0-9]{10,11}\z/, message: "は半角数値を入力してください"}

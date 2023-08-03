@@ -9,8 +9,7 @@ class OrdersController < ApplicationController
 
   def create
     @order_sending_address = OrderSendingAddress.new(order_params)
-    @price = @item.price
-
+    redirect_to "/item/#{order.item.id}"  
     if @order_sending_address.valid?
       @order_sending_address.save
       pay_item
@@ -31,7 +30,6 @@ class OrdersController < ApplicationController
       :building_name,
       :phone_num,
       :order
-   )merge(user_id: current_user.id, item_id: @item.id, token: params[:token])
+   )merge(user_id: current_user.id, item_id: params[:item_id] )
   end
-
 end
