@@ -9,11 +9,11 @@ class OrdersController < ApplicationController
 
   def create
     @order_sending_address = OrderSendingAddress.new(order_params)
-
+    @price = @item.price
 
     if @order_sending_address.valid?
       @order_sending_address.save
-
+      pay_item
       return redirect_to root_path
     else
       render 'index', status: :unprocessable_entity
