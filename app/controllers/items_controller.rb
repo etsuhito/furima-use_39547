@@ -1,5 +1,5 @@
 class ItemsController < ApplicationController
-  before_action :select_item, only: [:show, :edit, :update, :destroy]
+  before_action :set_item, only: [:show, :edit, :update, :destroy]
   before_action :authenticate_user!, only: [:new, :create, :edit, :update, :destroy]
   before_action :redirect_to_show, only: [:edit, :update, :destroy]
 
@@ -24,12 +24,15 @@ class ItemsController < ApplicationController
   end
 
   def edit
+    if @item.order.present?
+      redirect_to root_path
+    end
   end
 
   def update
     if @item.update(item_params)
       return redirect_to item_path(@item)
-    else
+     else
       render 'edit', status: :unprocessable_entity
     end
   end
@@ -43,6 +46,9 @@ class ItemsController < ApplicationController
   end
 
   private
+  def set_item
+    @item = Item.find(params[:id])
+  end
 
   def item_params
     params.require(:item).permit(
