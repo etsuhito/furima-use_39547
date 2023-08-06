@@ -8,13 +8,15 @@ class OrdersController < ApplicationController
   end
 
   def create
+    #binding.pry
     @order_sending_address = OrderSendingAddress.new(order_params)
     #redirect_to "/item/#{order.item.id}"  
+    #binding.pry
     if @order_sending_address.valid?
-      #binding.pry
-      @order_sending_address.save
       pay_item
-      redirect_to root_path, notice: '注文が完了しました。'
+      @order_sending_address.save
+      
+       return redirect_to root_path, notice: '注文が完了しました。'
      else
       render 'index', status: :unprocessable_entity
     end
@@ -39,6 +41,6 @@ class OrdersController < ApplicationController
       :building_name,
       :phone_num,
       :order,
-    ).merge(user_id: current_user.id, item_id: @item_id)
+    ).merge(user_id: current_user.id, item_id: @item.id)
   end
 end

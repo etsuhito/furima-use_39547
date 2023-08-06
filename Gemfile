@@ -82,6 +82,7 @@ gem "image_processing", "~> 1.2"
 gem "active_hash"
 
 gem 'pry-rails'
+gem 'active_hash'
 
 group :development do
   gem 'rubocop', require: false
