@@ -1,5 +1,5 @@
 class ItemsController < ApplicationController
-  before_action :select_item, only: [:show, :edit, :update, :destroy]
+  before_action :set_item, only: [:show, :edit, :update, :destroy]
   before_action :authenticate_user!, only: [:new, :create, :edit, :update, :destroy]
   before_action :redirect_to_show, only: [:edit, :update, :destroy]
 
@@ -13,36 +13,37 @@ class ItemsController < ApplicationController
 
   def create
     @item = Item.new(item_params)
-    if @item.save
-      return redirect_to root_path
-    else
-      render 'new', status: :unprocessable_entity
-    end
+    return redirect_to root_path if @item.save
+
+    render 'new', status: :unprocessable_entity
   end
 
   def show
   end
 
   def edit
+    return unless @item.order.present?
+
+    redirect_to root_path
   end
 
   def update
-    if @item.update(item_params)
-      return redirect_to item_path(@item)
-    else
-      render 'edit', status: :unprocessable_entity
-    end
+    return redirect_to item_path(@item) if @item.update(item_params)
+
+    render 'edit', status: :unprocessable_entity
   end
 
   def destroy
-    if @item.destroy
-      return redirect_to root_path
-    else
-      render 'show', status: :unprocessable_entity
-    end
+    return redirect_to root_path if @item.destroy
+
+    render 'show', status: :unprocessable_entity
   end
 
   private
+
+  def set_item
+    @item = Item.find(params[:id])
+  end
 
   def item_params
     params.require(:item).permit(
