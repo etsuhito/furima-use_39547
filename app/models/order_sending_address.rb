@@ -10,9 +10,9 @@ class OrderSendingAddress
   validates :prefecture_id, numericality: { other_than: 0, message: "can't be blank" }
 
   def save
-    order = Order.create(user_id:, item_id:)
+    order = Order.create(user_id: user_id, item_id: item_id)
 
-    SendingAddress.create(post_code:, prefecture_id:, city:, street:,
-                          building_name:, phone_num:, order_id: order.id)
+    SendingAddress.create(post_code: post_code, prefecture_id: prefecture_id, city: city, street: street,
+                          building_name: building_name, phone_num: phone_num, order_id: order.id)
   end
 end

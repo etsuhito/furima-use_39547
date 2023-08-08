@@ -11,11 +11,11 @@ class OrdersController < ApplicationController
   end
 
   def create
-    # binding.pry
+    
     @order_sending_address = OrderSendingAddress.new(order_params)
-    # binding.pry
+    
     if @order_sending_address.valid?
-      # binding.pry
+     
       pay_item
       @order_sending_address.save
 
