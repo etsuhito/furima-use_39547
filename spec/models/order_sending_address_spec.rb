@@ -2,8 +2,8 @@ require 'rails_helper'
 RSpec.describe Order, type: :model do
     before do
       user = FactoryBot.create(:user)
-      product_listing = FactoryBot.create(:product_listing)
-      @order = FactoryBot.build(:order, user_id: user.id, product_listing_id: product_listing.id)
+      item = FactoryBot.create(:item)
+      @order = FactoryBot.build(:order_sending_address, user_id: user.id, item_id: item.id)
       sleep 0.1
     end
   describe "商品の購入" do
@@ -20,20 +20,20 @@ RSpec.describe Order, type: :model do
       it "郵便番号が空だと購入できない" do
         @order.post_code = ''  
         @order.valid?
-        expect(@order.errors.full_messages).to include("Postcode can't be blank")
+        expect(@order.errors.full_messages).to include("Post code can't be blank")
       end
       it "郵便番号は「3桁ハイフン4桁」でないと購入できない" do
         @order.post_code = '1111111'  
         @order.valid?
-        expect(@order.errors.full_messages).to include("Postcode is invalid")
+        expect(@order.errors.full_messages).to include("Post code is invalid. Include hyphen(-)")
       end
       it "郵便番号は半角文字列でないと購入できない" do
         @order.post_code = 'あ'  
         @order.valid?
-        expect(@order.errors.full_messages).to include("Postcode is invalid")
+        expect(@order.errors.full_messages).to include("Post code is invalid. Include hyphen(-)")
       end
       it "都道府県が空だと購入できない" do
-        @order.prefecture_id = '1'  
+        @order.prefecture_id = '0'  
         @order.valid?
         expect(@order.errors.full_messages).to include("Prefecture can't be blank")
       end
@@ -45,27 +45,27 @@ RSpec.describe Order, type: :model do
       it "番地が空だと購入できない" do
         @order.street = ''  
         @order.valid?
-        expect(@order.errors.full_messages).to include("Block can't be blank")
+        expect(@order.errors.full_messages).to include("Street can't be blank")
       end
       it "電話番号が空だと購入できない" do
         @order.phone_num = ''  
         @order.valid?
-        expect(@order.errors.full_messages).to include("Phone number can't be blank")
+        expect(@order.errors.full_messages).to include("Phone num can't be blank")
       end
       it "電話番号が9桁以下だと購入できない" do
         @order.phone_num = '12345678'  
         @order.valid?
-        expect(@order.errors.full_messages).to include("Phone number is invalid")
+        expect(@order.errors.full_messages).to include("Phone num は半角数値を入力してください")
       end
       it "電話番号が12桁以上だと購入できない" do
         @order.phone_num = '123412341234'  
         @order.valid?
-        expect(@order.errors.full_messages).to include("Phone number is invalid")
+        expect(@order.errors.full_messages).to include("Phone num は半角数値を入力してください")
       end
       it "電話番号が半角数値でないと購入できない" do
         @order.phone_num = '３３３'  
         @order.valid?
-        expect(@order.errors.full_messages).to include("Phone number is invalid")
+        expect(@order.errors.full_messages).to include("Phone num は半角数値を入力してください")
       end
       it "ユーザーが紐付けられていないと購入できない" do
         @order.user_id = nil  
@@ -81,7 +81,7 @@ RSpec.describe Order, type: :model do
         @order.token = nil  
         @order.valid?
         expect(@order.errors.full_messages).to include("Token can't be blank")
-      end
-    end
+     end
+   end
   end
 end

@@ -4,9 +4,9 @@ class OrderSendingAddress
 
   
   with_options presence: true do
-    validates :user_id, :city, :street, :item_id
+    validates :user_id, :city, :street, :item_id, :token
     validates :post_code, format: {with: /\A[0-9]{3}-[0-9]{4}\z/, message: "is invalid. Include hyphen(-)"}
-    validates :phone_num, length: {minimum: 10, message: "は10桁以上を入力してください"}, format: {with: /\A[0-9]{10,11}\z/, message: "は半角数値を入力してください"}
+    validates :phone_num, format: {with: /\A[0-9]{10,11}\z/, message: "は半角数値を入力してください"}
   end
   validates :prefecture_id, numericality: {other_than: 0, message: "can't be blank"}
 
