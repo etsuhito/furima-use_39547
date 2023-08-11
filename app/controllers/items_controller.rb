@@ -34,9 +34,11 @@ class ItemsController < ApplicationController
   end
 
   def destroy
-    return redirect_to root_path if @item.destroy
-
-    render 'show', status: :unprocessable_entity
+    if current_user.id == @item.user_id
+     return redirect_to root_path if @item.destroy
+    else
+     render 'show', status: :unprocessable_entity
+   end
   end
 
   private
